@@ -1,7 +1,7 @@
 public class Board
 {
 	/*
-	 * Bin 0 and bin 7 are mancalas. Bins 0 through 6 belong to player 1. Bins 7
+	 * Bin 6 and bin 13 are mancalas. Bins 0 through 6 belong to player 1. Bins 7
 	 * through 13 belong to player 2.
 	 */
 	private Bin[] bins;
@@ -15,10 +15,11 @@ public class Board
 	{
 		bins = new Bin[14];
 		
+		int midpoint = bins.length / 2;
 		for(int i = 0; i < bins.length; i++)
 		{
-			Participant p = (i < bins.length / 2) ? Participant.one : Participant.two;
-			boolean isMancala = i % (bins.length / 2) == 0; // only indices 0 and 7
+			Participant p = (i < midpoint) ? Participant.one : Participant.two;
+			boolean isMancala = i % midpoint == midpoint - 1; // only indices 6 and 13
 			int stones = (isMancala) ? 0 : 4; // 0 for mancala, 4 for everything else
 			
 			bins[i] = new Bin(stones, isMancala, p);
