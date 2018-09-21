@@ -1,8 +1,7 @@
-
 public class Tuple<T, S>
 {
-	T t;
-	S s;
+	final T t;
+	final S s;
 	
 	public Tuple(T t, S s)
 	{
