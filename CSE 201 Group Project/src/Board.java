@@ -15,34 +15,53 @@ public class Board
 	{
 		bins = new Bin[14];
 		
-		for(int i = 0;i < bins.length;i++)
+		for(int i = 0; i < bins.length; i++)
 		{
-			Participant p = owner(i);
-			boolean isMancala = i % 7 == 0; // only indices 0 and 7
+			Participant p = (i < bins.length / 2) ? Participant.one : Participant.two;
+			boolean isMancala = i % (bins.length / 2) == 0; // only indices 0 and 7
 			int stones = (isMancala) ? 0 : 4; // 0 for mancala, 4 for everything else
 			
 			bins[i] = new Bin(stones, isMancala, p);
 		}
 	}
 	
-	// Wrapper method for convenience.
 	public int stones(int index)
 	{
+		checkBounds(index);
+		
 		return bins[index].getStones();
+	}
+	
+	public boolean isMancala(int index)
+	{
+		checkBounds(index);
+		
+		return bins[index].isMancala();
+	}
+	
+	public Participant participant(int index)
+	{
+		checkBounds(index);
+		
+		return bins[index].participant;
 	}
 	
 	public Bin getBin(int index)
 	{
-		if(index >= bins.length)
-		{
-			// TODO throw ex
-		}
+		checkBounds(index);
 		
 		return bins[index];
 	}
 	
 	public void setBinCount(int index, int count)
 	{
+		checkBounds(index);
+		
+		if(0 > count || count > 48)
+		{
+			// TODO throw ex
+		}
+		
 		bins[index].setStones(count);
 	}
 	
@@ -56,32 +75,39 @@ public class Board
 	@SuppressWarnings("unused") // TODO remove
 	private int getOppositeIndex(int index)
 	{
+		checkBounds(index);
+		
 		// The equation breaks for indices 0 and 7, so we make exceptions.
 		if(index == 0)
 		{
 			return 7;
-		}
-		if(index == 7)
+		}else if(index == 7)
 		{
 			return 0;
 		}
 		
-		return 14 - index; // TODO
-	}
-	
-	public Participant owner(int index)
-	{
-		return (index <= 6) ? Participant.one : Participant.two;
+		return bins.length - index; // TODO check logic
 	}
 	
 	public int next(int index)
 	{
-		return (index + 1) % 14;
+		return (index + 1) % bins.length;
 	}
 	
 	public void move(int source, int destination)
 	{
+		checkBounds(source);
+		checkBounds(destination);
+		
 		bins[source].decrement();
 		bins[destination].increment();
+	}
+	
+	private void checkBounds(int index) throws ArrayIndexOutOfBoundsException
+	{
+		if(0 > index || index >= bins.length)
+		{
+			throw new ArrayIndexOutOfBoundsException();
+		}
 	}
 }

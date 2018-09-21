@@ -4,7 +4,7 @@ import java.util.List;
 public class Game
 {
 	Board board = new Board();
-	Participant whoseTurn;
+	Participant whoseTurn = Participant.one;
 	
 	public Game()
 	{
@@ -37,7 +37,7 @@ public class Game
 		{
 			return false;
 		}
-		if(board.owner(index) != whoseTurn)
+		if(board.participant(index) != whoseTurn)
 		{
 			return false;
 		}
