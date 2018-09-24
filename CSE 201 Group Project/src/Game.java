@@ -59,7 +59,7 @@ public class Game
 			Bin next = board.getBin(i);
 			
 			// skip opponent's mancala
-			if(next.isMancala() && next.player != whoseTurn)
+			if(next.isMancala() && next.participant != whoseTurn)
 			{
 				continue;
 			}
