@@ -3,13 +3,13 @@ public class Bin
 {
 	int stones;
 	final boolean isMancala;
-	final Participant participant;
+	final Participant player;
 	
 	public Bin(int stones, boolean isMancala, Participant player)
 	{
 		this.stones = stones;
 		this.isMancala = isMancala;
-		this.participant = player;
+		this.player = player;
 	}
 
 	public int getStones()
@@ -29,12 +29,12 @@ public class Bin
 
 	public Participant getPlayer()
 	{
-		return participant;
+		return player;
 	}
 	
 	public String toString()
 	{
-		return "(" + stones + ", " + isMancala + ", " + participant + ")";
+		return "(" + stones + ", " + isMancala + ", " + player + ")";
 	}
 	
 	public void increment()
