@@ -44,7 +44,7 @@ public class Board
 	{
 		checkBounds(index);
 		
-		return bins[index].participant;
+		return bins[index].player;
 	}
 	
 	public Bin getBin(int index)
