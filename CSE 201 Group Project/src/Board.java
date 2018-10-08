@@ -1,10 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board
 {
 	/*
-	 * Bin 6 and bin 13 are mancalas. Bins 0 through 6 belong to player 1. Bins 7
-	 * through 13 belong to player 2.
+	 * Bin 6 and bin 13 are mancalas. Bins 0 through 6 belong to player one. Bins 7
+	 * through 13 belong to player two.
 	 */
-	private Bin[] bins;
+	public final int SIZE = 14;
+	
+	private List<Bin> bins;
 	
 	public Board()
 	{
@@ -13,16 +18,16 @@ public class Board
 	
 	public void initialize()
 	{
-		bins = new Bin[14];
+		bins = new ArrayList<>(SIZE);
 		
-		int midpoint = bins.length / 2;
-		for(int i = 0; i < bins.length; i++)
+		int midpoint = SIZE / 2;
+		for(int i = 0; i < SIZE; i++)
 		{
 			Participant p = (i < midpoint) ? Participant.one : Participant.two;
 			boolean isMancala = i % midpoint == midpoint - 1; // only indices 6 and 13
 			int stones = (isMancala) ? 0 : 4; // 0 for mancala, 4 for everything else
 			
-			bins[i] = new Bin(stones, isMancala, p);
+			bins.add(i, new Bin(stones, isMancala, p));
 		}
 	}
 	
@@ -30,40 +35,40 @@ public class Board
 	{
 		checkBounds(index);
 		
-		return bins[index].getStones();
+		return bins.get(index).getStones();
 	}
 	
 	public boolean isMancala(int index)
 	{
 		checkBounds(index);
 		
-		return bins[index].isMancala();
+		return bins.get(index).isMancala();
 	}
 	
 	public Participant participant(int index)
 	{
 		checkBounds(index);
 		
-		return bins[index].participant;
+		return bins.get(index).participant;
 	}
 	
 	public Bin getBin(int index)
 	{
 		checkBounds(index);
 		
-		return bins[index];
+		return bins.get(index);
 	}
 	
 	public void setBinCount(int index, int count)
 	{
 		checkBounds(index);
 		
-		if(0 > count || count > 48)
+		if(0 > count || count > (SIZE - 2) * 4)
 		{
 			// TODO throw ex
 		}
 		
-		bins[index].setStones(count);
+		bins.get(index).setStones(count);
 	}
 	
 	/**
@@ -81,18 +86,18 @@ public class Board
 		// The equation breaks for indices 0 and 7, so we make exceptions.
 		if(index == 0)
 		{
-			return 7;
-		}else if(index == 7)
+			return SIZE / 2;
+		}else if(index == SIZE / 2)
 		{
 			return 0;
 		}
 		
-		return bins.length - index; // TODO check logic
+		return SIZE - index; // TODO check logic
 	}
 	
 	public int next(int index)
 	{
-		return (index + 1) % bins.length;
+		return (index + 1) % SIZE;
 	}
 	
 	public void move(int source, int destination)
@@ -100,15 +105,31 @@ public class Board
 		checkBounds(source);
 		checkBounds(destination);
 		
-		bins[source].decrement();
-		bins[destination].increment();
+		bins.get(source).decrement();
+		bins.get(destination).increment();
 	}
 	
-	private void checkBounds(int index) throws ArrayIndexOutOfBoundsException
+	private void checkBounds(int index) throws IndexOutOfBoundsException
 	{
-		if(0 > index || index >= bins.length)
+		if(0 > index || index >= SIZE)
 		{
-			throw new ArrayIndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException();
 		}
 	}
+	
+	public String toString()
+	{
+		String s = "";
+		
+		for(Bin b:bins)
+		{
+			s += /* "owner: " +*/ b.participant + ", ";
+			s += /* "stones: " + */ b.getStones() + ",";
+			s += /* "isMancala: " + */ b.isMancala() ? "O" : "_";
+			s += "; ";
+		}
+		
+		return s;
+	}
+	
 }

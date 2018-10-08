@@ -26,7 +26,8 @@ public class Game
 	{
 		List<Tuple<Integer, Integer>> moves = getStoneMoves(index);
 		
-		for(Tuple<Integer, Integer> t : moves) {
+		for(Tuple<Integer, Integer> t:moves)
+		{
 			board.move(t.first(), t.second());
 		}
 	}
@@ -49,25 +50,35 @@ public class Game
 		return true;
 	}
 	
-	public List<Tuple<Integer, Integer>> getStoneMoves(int index) // TODO check logic
+	//TODO LOGIC IS INCORRECT. FIX ASAP.
+	public List<Tuple<Integer, Integer>> getStoneMoves(int index)
 	{
 		List<Tuple<Integer, Integer>> moves = new ArrayList<>();
 		int stones = board.stones(index);
 		
-		for(int i = board.next(index);stones > 0;i = board.next(i))
+		for(int i = board.next(index); stones > 0; i = board.next(i))
 		{
 			Bin next = board.getBin(i);
 			
 			// skip opponent's mancala
-			if(next.isMancala() && next.participant != whoseTurn)
+			if(!next.isMancala() || next.participant == whoseTurn)
 			{
-				continue;
+				moves.add(new Tuple<>(index, i));
+				stones--;
 			}
-			
-			moves.add(new Tuple<>(index, i));
-			stones -= 1;
 		}
 		
 		return moves;
+	}
+	
+	public Board getBoard()
+	{
+		return this.board;
+	}
+	
+	public String toString()
+	{
+		
+		return "";
 	}
 }
