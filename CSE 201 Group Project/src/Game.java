@@ -32,30 +32,11 @@ public class Game
 			board.move(m);
 		}
 		
-		// TODO handle captures
-		
 		this.whoseTurn = this.whoseTurn.opposite();
 	}
 	
-	public boolean validMove(int index)
-	{
-		if(0 > index || index > 13)
-		{
-			return false;
-		}
-		if(board.player(index) != whoseTurn)
-		{
-			return false;
-		}
-		if(board.stones(index) < 1)
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
 	// TODO Fix mancalas not getting stones added.
+	// TODO Implement captures.
 	public List<Move> getStoneMoves(int index)
 	{
 		List<Move> moves = new ArrayList<>();
@@ -76,6 +57,24 @@ public class Game
 		}
 		
 		return moves;
+	}
+
+	public boolean validMove(int index)
+	{
+		if(0 > index || index > 13)
+		{
+			return false;
+		}
+		if(board.player(index) != whoseTurn)
+		{
+			return false;
+		}
+		if(board.stones(index) < 1)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	@SuppressWarnings("unused")
