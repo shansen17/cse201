@@ -1,4 +1,4 @@
-public class Tuple<T, S>
+public abstract class Tuple<T, S>
 {
 	final T t;
 	final S s;

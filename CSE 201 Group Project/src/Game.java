@@ -24,11 +24,11 @@ public class Game
 	
 	public void move(int index)
 	{
-		List<Tuple<Integer, Integer>> moves = getStoneMoves(index);
+		List<Move> moves = getStoneMoves(index);
 		
-		for(Tuple<Integer, Integer> t : moves)
+		for(Move m : moves)
 		{
-			board.move(t.first(), t.second());
+			board.move(m);
 		}
 		
 		this.whoseTurn = this.whoseTurn.opposite();
@@ -52,10 +52,28 @@ public class Game
 		return true;
 	}
 	
-	// TODO LOGIC IS INCORRECT. FIX ASAP.
-	public List<Tuple<Integer, Integer>> getStoneMoves(int index)
+	private boolean captured(Move lastMove) // TODO finish and check
 	{
-		List<Tuple<Integer, Integer>> moves = new ArrayList<>();
+		int lastIndex = lastMove.second();
+		if(board.stones(lastIndex) != 1 || board.isMancala(lastIndex)
+				|| board.player(lastIndex) != this.whoseTurn)
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private List<Move> getCaptureMoves(Move lastMove) // TODO FINISH
+	{
+		
+		return null;
+	}
+	
+	// TODO LOGIC IS INCORRECT. FIX ASAP.
+	public List<Move> getStoneMoves(int index)
+	{
+		List<Move> moves = new ArrayList<>();
 		int stones = board.stones(index);
 		
 		for(int i = Board.next(index); stones > 0; i = Board.next(i))
@@ -68,8 +86,18 @@ public class Game
 				i = Board.next(i);
 			}
 			
-			moves.add(new Tuple<>(index, i));
+			moves.add(new Move(index, i));
 			stones--;
+		}
+		
+		Move lastMove = moves.get(moves.size() - 1);
+		if(captured(lastMove))
+		{
+			List<Move> captureMoves = getCaptureMoves(lastMove);
+			for(Move m : captureMoves)
+			{
+				moves.add(m);
+			}
 		}
 		
 		return moves;

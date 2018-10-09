@@ -108,6 +108,15 @@ public class Board
 		bins.get(destination).increment();
 	}
 	
+	public void move(Move move)
+	{
+		checkBounds(move.first());
+		checkBounds(move.second());
+		
+		bins.get(move.first()).decrement();
+		bins.get(move.second()).increment();
+	}
+	
 	private static void checkBounds(int index) throws IndexOutOfBoundsException
 	{
 		if(0 > index || index >= SIZE)
