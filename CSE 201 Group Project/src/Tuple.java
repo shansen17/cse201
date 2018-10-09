@@ -9,12 +9,12 @@ public abstract class Tuple<T, S>
 		this.s = s;
 	}
 	
-	public T first()
+	public final T first()
 	{
 		return t;
 	}
 	
-	public S second()
+	public final S second()
 	{
 		return s;
 	}

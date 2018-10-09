@@ -4,8 +4,8 @@ import java.util.List;
 public class Board
 {
 	/*
-	 * Bin 6 and bin 13 are mancalas. Bins 0 through 6 belong to player one. Bins 7
-	 * through 13 belong to player two.
+	 * Bin 6 and bin 13 are mancalas. Bins 0 through 6 belong to player one.
+	 * Bins 7 through 13 belong to player two.
 	 */
 	public final static int SIZE = 14;
 	
@@ -24,8 +24,10 @@ public class Board
 		for(int i = 0; i < SIZE; i++)
 		{
 			Player p = (i < midpoint) ? Player.ONE : Player.TWO;
-			boolean isMancala = (i % midpoint == midpoint - 1); // only indices 6 and 13
-			int stones = (isMancala) ? 0 : 4; // 0 for mancala, 4 for everything else
+			boolean isMancala = (i % midpoint == midpoint - 1); // only indices
+																// 6 and 13
+			int stones = (isMancala) ? 0 : 4; // 0 for mancala, 4 for everything
+												// else
 			
 			bins.add(i, new Bin(stones, isMancala, p));
 		}
@@ -72,8 +74,9 @@ public class Board
 	}
 	
 	/**
-	 * Returns the index of the bin on the opposite side of the one specified. For
-	 * the mancalas (indices 0 and 7), it returns the index of the other mancala.
+	 * Returns the index of the bin on the opposite side of the one specified.
+	 * For the mancalas (indices 0 and 7), it returns the index of the other
+	 * mancala.
 	 * 
 	 * @param index Index to find opposite of
 	 * @return Index of opposite bin
@@ -133,7 +136,7 @@ public class Board
 		{
 			s += /* "owner: " + */ b.player + ", ";
 			s += /* "stones: " + */ b.getStones() + ",";
-			s += /* "isMancala: " + */ b.isMancala() ? "O" : "_";
+			s += /* "isMancala: " + */ b.isMancala() ? "+" : "-";
 			s += "; ";
 		}
 		

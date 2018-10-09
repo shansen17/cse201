@@ -9,11 +9,12 @@ public class Game
 	public Game()
 	{
 		newGame();
+		whoseTurn = Math.random() > 0.5 ? Player.ONE : Player.TWO;
 	}
 	
 	public Game(Player p)
 	{
-		this();
+		newGame();
 		whoseTurn = p;
 	}
 	
@@ -30,6 +31,8 @@ public class Game
 		{
 			board.move(m);
 		}
+		
+		// TODO handle captures
 		
 		this.whoseTurn = this.whoseTurn.opposite();
 	}
@@ -52,25 +55,7 @@ public class Game
 		return true;
 	}
 	
-	private boolean captured(Move lastMove) // TODO finish and check
-	{
-		int lastIndex = lastMove.second();
-		if(board.stones(lastIndex) != 1 || board.isMancala(lastIndex)
-				|| board.player(lastIndex) != this.whoseTurn)
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
-	private List<Move> getCaptureMoves(Move lastMove) // TODO FINISH
-	{
-		
-		return null;
-	}
-	
-	// TODO LOGIC IS INCORRECT. FIX ASAP.
+	// TODO Fix mancalas not getting stones added.
 	public List<Move> getStoneMoves(int index)
 	{
 		List<Move> moves = new ArrayList<>();
@@ -90,14 +75,31 @@ public class Game
 			stones--;
 		}
 		
-		Move lastMove = moves.get(moves.size() - 1);
-		if(captured(lastMove))
+		return moves;
+	}
+	
+	@SuppressWarnings("unused")
+	private boolean captured(Move lastMove) // TODO finish and check
+	{
+		int lastIndex = lastMove.second();
+		if(board.stones(lastIndex) != 1 || board.isMancala(lastIndex)
+				|| board.player(lastIndex) != this.whoseTurn)
 		{
-			List<Move> captureMoves = getCaptureMoves(lastMove);
-			for(Move m : captureMoves)
-			{
-				moves.add(m);
-			}
+			return false;
+		}
+		
+		return true;
+	}
+	
+	@SuppressWarnings("unused")
+	private List<Move> getCaptureMoves(Move lastMove) // TODO FIX
+	{
+		List<Move> moves = new ArrayList<>();
+		
+		List<Move> captureMoves = getCaptureMoves(lastMove);
+		for(Move m : captureMoves)
+		{
+			moves.add(m);
 		}
 		
 		return moves;
@@ -110,7 +112,6 @@ public class Game
 	
 	public String toString()
 	{
-		
 		return "";
 	}
 }

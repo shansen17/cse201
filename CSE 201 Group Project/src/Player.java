@@ -3,8 +3,9 @@ public enum Player
 	ONE, TWO;
 	
 	private Player opposite;
-
-	static {
+	
+	static
+	{
 		ONE.opposite = Player.TWO;
 		TWO.opposite = Player.ONE;
 	}
