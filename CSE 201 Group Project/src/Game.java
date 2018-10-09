@@ -4,14 +4,14 @@ import java.util.List;
 public class Game
 {
 	Board board = new Board();
-	Participant whoseTurn = Participant.one;
+	Player whoseTurn = Player.ONE;
 	
 	public Game()
 	{
 		newGame();
 	}
 	
-	public Game(Participant p)
+	public Game(Player p)
 	{
 		this();
 		whoseTurn = p;
@@ -26,10 +26,12 @@ public class Game
 	{
 		List<Tuple<Integer, Integer>> moves = getStoneMoves(index);
 		
-		for(Tuple<Integer, Integer> t:moves)
+		for(Tuple<Integer, Integer> t : moves)
 		{
 			board.move(t.first(), t.second());
 		}
+		
+		this.whoseTurn = this.whoseTurn.opposite();
 	}
 	
 	public boolean validMove(int index)
@@ -38,7 +40,7 @@ public class Game
 		{
 			return false;
 		}
-		if(board.participant(index) != whoseTurn)
+		if(board.player(index) != whoseTurn)
 		{
 			return false;
 		}
@@ -50,22 +52,24 @@ public class Game
 		return true;
 	}
 	
-	//TODO LOGIC IS INCORRECT. FIX ASAP.
+	// TODO LOGIC IS INCORRECT. FIX ASAP.
 	public List<Tuple<Integer, Integer>> getStoneMoves(int index)
 	{
 		List<Tuple<Integer, Integer>> moves = new ArrayList<>();
 		int stones = board.stones(index);
 		
-		for(int i = board.next(index); stones > 0; i = board.next(i))
+		for(int i = Board.next(index); stones > 0; i = Board.next(i))
 		{
 			Bin next = board.getBin(i);
 			
 			// skip opponent's mancala
-			if(!next.isMancala() || next.participant == whoseTurn)
+			if(next.isMancala() && next.player != whoseTurn)
 			{
-				moves.add(new Tuple<>(index, i));
-				stones--;
+				i = Board.next(i);
 			}
+			
+			moves.add(new Tuple<>(index, i));
+			stones--;
 		}
 		
 		return moves;

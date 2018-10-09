@@ -3,38 +3,38 @@ public class Bin
 {
 	int stones;
 	final boolean isMancala;
-	final Participant participant;
+	final Player player;
 	
-	public Bin(int stones, boolean isMancala, Participant player)
+	public Bin(int stones, boolean isMancala, Player player)
 	{
 		this.stones = stones;
 		this.isMancala = isMancala;
-		this.participant = player;
+		this.player = player;
 	}
-
+	
 	public int getStones()
 	{
 		return stones;
 	}
-
+	
 	public void setStones(int stones)
 	{
 		this.stones = stones;
 	}
-
+	
 	public boolean isMancala()
 	{
 		return isMancala;
 	}
-
-	public Participant getPlayer()
+	
+	public Player getPlayer()
 	{
-		return participant;
+		return player;
 	}
 	
 	public String toString()
 	{
-		return "(" + stones + ", " + isMancala + ", " + participant + ")";
+		return "(" + stones + ", " + isMancala + ", " + player + ")";
 	}
 	
 	public void increment()

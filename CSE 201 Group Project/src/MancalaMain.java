@@ -8,7 +8,7 @@ public class MancalaMain
 	
 	public static void run()
 	{
-		for(int i = 0; i < 14; ++i)
+		for(int i = 0; i < Board.SIZE; ++i)
 		{
 			Game g = new Game();
 			System.out.print(i + ": ");

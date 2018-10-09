@@ -7,7 +7,7 @@ public class Board
 	 * Bin 6 and bin 13 are mancalas. Bins 0 through 6 belong to player one. Bins 7
 	 * through 13 belong to player two.
 	 */
-	public final int SIZE = 14;
+	public final static int SIZE = 14;
 	
 	private List<Bin> bins;
 	
@@ -23,8 +23,8 @@ public class Board
 		int midpoint = SIZE / 2;
 		for(int i = 0; i < SIZE; i++)
 		{
-			Participant p = (i < midpoint) ? Participant.one : Participant.two;
-			boolean isMancala = i % midpoint == midpoint - 1; // only indices 6 and 13
+			Player p = (i < midpoint) ? Player.ONE : Player.TWO;
+			boolean isMancala = (i % midpoint == midpoint - 1); // only indices 6 and 13
 			int stones = (isMancala) ? 0 : 4; // 0 for mancala, 4 for everything else
 			
 			bins.add(i, new Bin(stones, isMancala, p));
@@ -45,11 +45,11 @@ public class Board
 		return bins.get(index).isMancala();
 	}
 	
-	public Participant participant(int index)
+	public Player player(int index)
 	{
 		checkBounds(index);
 		
-		return bins.get(index).participant;
+		return bins.get(index).player;
 	}
 	
 	public Bin getBin(int index)
@@ -78,8 +78,7 @@ public class Board
 	 * @param index Index to find opposite of
 	 * @return Index of opposite bin
 	 */
-	@SuppressWarnings("unused") // TODO remove
-	private int getOppositeIndex(int index)
+	public static int getOppositeIndex(int index)
 	{
 		checkBounds(index);
 		
@@ -95,7 +94,7 @@ public class Board
 		return SIZE - index; // TODO check logic
 	}
 	
-	public int next(int index)
+	public static int next(int index)
 	{
 		return (index + 1) % SIZE;
 	}
@@ -109,7 +108,7 @@ public class Board
 		bins.get(destination).increment();
 	}
 	
-	private void checkBounds(int index) throws IndexOutOfBoundsException
+	private static void checkBounds(int index) throws IndexOutOfBoundsException
 	{
 		if(0 > index || index >= SIZE)
 		{
@@ -121,9 +120,9 @@ public class Board
 	{
 		String s = "";
 		
-		for(Bin b:bins)
+		for(Bin b : bins)
 		{
-			s += /* "owner: " +*/ b.participant + ", ";
+			s += /* "owner: " + */ b.player + ", ";
 			s += /* "stones: " + */ b.getStones() + ",";
 			s += /* "isMancala: " + */ b.isMancala() ? "O" : "_";
 			s += "; ";
@@ -131,5 +130,4 @@ public class Board
 		
 		return s;
 	}
-	
 }
