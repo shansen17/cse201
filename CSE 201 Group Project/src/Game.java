@@ -30,6 +30,7 @@ public class Game
 		for(Move m : moves)
 		{
 			board.move(m);
+			System.out.println(m);
 		}
 		
 		this.whoseTurn = this.whoseTurn.opposite();
@@ -44,7 +45,7 @@ public class Game
 		
 		for(int i = Board.next(index); stones > 0; i = Board.next(i))
 		{
-			Bin next = board.getBin(i);
+			Bin next = board.getBin(i);			
 			
 			// skip opponent's mancala
 			if(next.isMancala() && next.player != whoseTurn)
@@ -52,13 +53,13 @@ public class Game
 				i = Board.next(i);
 			}
 			
-			moves.add(new Move(index, i));
 			stones--;
+			moves.add(new Move(index, i));
 		}
 		
 		return moves;
 	}
-
+	
 	public boolean validMove(int index)
 	{
 		if(0 > index || index > 13)
