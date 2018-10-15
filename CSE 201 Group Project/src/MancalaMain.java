@@ -11,9 +11,10 @@ public class MancalaMain
 		for(int i = 0; i < Board.SIZE; ++i)
 		{
 			Game g = new Game();
-			System.out.print(i + ": ");
 			g.move(i);
-			System.out.println(g.getBoard());
+			System.out.print(i + ": ");
+			System.out.print(g.getBoard());
+			System.out.println("\n");
 		}
 	}
 }
