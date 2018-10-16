@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Game
 {
-	Board board = new Board();
-	Player whoseTurn = Player.ONE;
+	private Board board = new Board();
+	private Player whoseTurn = Player.ONE;
 	
 	public Game()
 	{
@@ -23,6 +23,7 @@ public class Game
 		board.initialize();
 	}
 	
+	//TODO move loop elsewhere
 	public void move(int index)
 	{
 		List<Move> moves = getStoneMoves(index);
