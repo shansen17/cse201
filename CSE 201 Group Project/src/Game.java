@@ -1,21 +1,35 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author CSE 201 Team B - Fall 2018
+ * @version 0.5
+ */
 public class Game
 {
 	private Board board = new Board();
 	private Player whoseTurn = Player.ONE;
 	
+	/**
+	 * Starts a new game with a fresh {@code Board}. {@code Player} to go first is
+	 * chosen at random with 50-50 chance.
+	 */
 	public Game()
 	{
 		newGame();
 		whoseTurn = Math.random() > 0.5 ? Player.ONE : Player.TWO;
 	}
 	
-	public Game(Player p)
+	/**
+	 * Starts new game with fresh board. Player is specified in constructor
+	 * field.
+	 * 
+	 * @param player {@code Player} who goes first.
+	 */
+	public Game(Player player)
 	{
 		newGame();
-		whoseTurn = p;
+		whoseTurn = player;
 	}
 	
 	public void newGame()
@@ -23,7 +37,7 @@ public class Game
 		board.initialize();
 	}
 	
-	//TODO move loop elsewhere
+	// TODO move loop elsewhere
 	public void move(int index)
 	{
 		List<Move> moves = getStoneMoves(index);
@@ -46,7 +60,7 @@ public class Game
 		
 		for(int i = Board.next(index); stones > 0; i = Board.next(i))
 		{
-			Bin next = board.getBin(i);			
+			Bin next = board.getBin(i);
 			
 			// skip opponent's mancala
 			if(next.isMancala() && next.player != whoseTurn)
