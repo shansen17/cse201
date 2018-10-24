@@ -8,18 +8,14 @@ public class Game
 	
 	public Game()
 	{
-		newGame();
+		board.initialize();
+		whoseTurn = Math.random() > 0.5 ? Participant.one : Participant.two;
 	}
 	
 	public Game(Participant p)
 	{
-		this();
-		whoseTurn = p;
-	}
-	
-	public void newGame()
-	{
 		board.initialize();
+		whoseTurn = p;
 	}
 	
 	public void move(int index)
@@ -38,7 +34,7 @@ public class Game
 		{
 			return false;
 		}
-		if(board.participant(index) != whoseTurn)
+		if(Board.participant(index) != whoseTurn)
 		{
 			return false;
 		}
@@ -50,18 +46,15 @@ public class Game
 		return true;
 	}
 	
-	//TODO LOGIC IS INCORRECT. FIX ASAP.
 	public List<Tuple<Integer, Integer>> getStoneMoves(int index)
 	{
 		List<Tuple<Integer, Integer>> moves = new ArrayList<>();
 		int stones = board.stones(index);
 		
-		for(int i = board.next(index); stones > 0; i = board.next(i))
+		for(int i = Board.next(index); stones > 0; i = Board.next(i))
 		{
-			Bin next = board.getBin(i);
-			
 			// skip opponent's mancala
-			if(!next.isMancala() || next.participant == whoseTurn)
+			if(!Board.isMancala(i) || Board.participant(i) == whoseTurn)
 			{
 				moves.add(new Tuple<>(index, i));
 				stones--;
