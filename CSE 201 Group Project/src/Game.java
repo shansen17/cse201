@@ -4,15 +4,15 @@ import java.util.List;
 public class Game
 {
 	Board board = new Board();
-	Participant whoseTurn = Participant.one;
+	Player whoseTurn = Player.ONE;
 	
 	public Game()
 	{
 		board.initialize();
-		whoseTurn = Math.random() > 0.5 ? Participant.one : Participant.two;
+		whoseTurn = Math.random() > 0.5 ? Player.ONE : Player.TWO;
 	}
 	
-	public Game(Participant p)
+	public Game(Player p)
 	{
 		board.initialize();
 		whoseTurn = p;
@@ -20,11 +20,11 @@ public class Game
 	
 	public void move(int index)
 	{
-		List<Tuple<Integer, Integer>> moves = getStoneMoves(index);
+		List<Move> moves = getStoneMoves(index);
 		
-		for(Tuple<Integer, Integer> t:moves)
+		for(Move m : moves)
 		{
-			board.move(t.first(), t.second());
+			board.move(m.first(), m.second());
 		}
 	}
 	
@@ -34,7 +34,7 @@ public class Game
 		{
 			return false;
 		}
-		if(Board.participant(index) != whoseTurn)
+		if(Board.Player(index) != whoseTurn)
 		{
 			return false;
 		}
@@ -46,17 +46,17 @@ public class Game
 		return true;
 	}
 	
-	public List<Tuple<Integer, Integer>> getStoneMoves(int index)
+	public List<Move> getStoneMoves(int index)
 	{
-		List<Tuple<Integer, Integer>> moves = new ArrayList<>();
+		List<Move> moves = new ArrayList<>();
 		int stones = board.stones(index);
 		
 		for(int i = Board.next(index); stones > 0; i = Board.next(i))
 		{
 			// skip opponent's mancala
-			if(!Board.isMancala(i) || Board.participant(i) == whoseTurn)
+			if(!Board.isMancala(i) || Board.Player(i) == whoseTurn)
 			{
-				moves.add(new Tuple<>(index, i));
+				moves.add(new Move(index, i));
 				stones--;
 			}
 		}

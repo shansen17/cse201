@@ -58,7 +58,6 @@ public class Board
 	 * @param index Index to find opposite of
 	 * @return Index of opposite bin
 	 */
-	@SuppressWarnings("unused") // TODO remove
 	public static int getOppositeIndex(int index)
 	{
 		checkBounds(index);
@@ -86,9 +85,9 @@ public class Board
 		return (index + 1) % SIZE;
 	}
 
-	public static Participant participant(int index)
+	public static Player Player(int index)
 	{
-		return (index < SIZE / 2) ? Participant.one : Participant.two;
+		return (index < SIZE / 2) ? Player.ONE : Player.TWO;
 	}
 
 	public String toString()
@@ -96,7 +95,7 @@ public class Board
 		String s = "";
 		
 		/*
-		 * for(Bin b : bins) { s += b.participant + ","; s += b.getStones() +
+		 * for(Bin b : bins) { s += b.Player + ","; s += b.getStones() +
 		 * ","; s += b.isMancala() ? "O" : "_"; s += "; "; } s += "\n";
 		 */
 		

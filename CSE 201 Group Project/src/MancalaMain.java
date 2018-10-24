@@ -14,7 +14,7 @@ public class MancalaMain
 		
 		for(int i = 1; i < 14; ++i)
 		{
-			g = new Game(Participant.two);
+			g = new Game(Player.TWO);
 			System.out.print(i + ": ");
 			g.move(i);
 			System.out.println(g.getBoard());
