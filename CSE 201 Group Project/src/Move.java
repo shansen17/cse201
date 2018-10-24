@@ -1,12 +1,26 @@
-public class Move extends Tuple<Integer, Integer>
+public class Move
 {
-	public Move(Integer t, Integer s)
+	private final int first;
+	private final int second;
+	
+	public Move(int first, int second)
 	{
-		super(t, s);
+		this.first = first;
+		this.second = second;
+	}
+	
+	public int first()
+	{
+		return first;
+	}
+	
+	public int second()
+	{
+		return second;
 	}
 	
 	public String toString()
 	{
-		return t + ", " + s + "; ";
+		return first + ", " + second + "; ";
 	}
 }
