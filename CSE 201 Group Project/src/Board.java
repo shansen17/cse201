@@ -42,18 +42,8 @@ public class Board
 		bins[index] = count;
 	}
 	
-	public static void checkBounds(int index) throws IndexOutOfBoundsException
-	{
-		if(0 > index || index >= SIZE)
-		{
-			throw new IndexOutOfBoundsException();
-		}
-	}
-
 	public static int getOppositeIndex(int index)
 	{
-		checkBounds(index);
-		
 		// The equation breaks for indices 0 and 7, so we make exceptions.
 		if(index == 0)
 		{
