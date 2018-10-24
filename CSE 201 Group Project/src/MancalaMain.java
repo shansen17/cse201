@@ -10,14 +10,14 @@ public class MancalaMain
 	public static void run(String[] args)
 	{
 		Game g = new Game();
-		System.out.println("NULL: " + g.getBoard());
+		System.out.println("NULL: " + g);
 		
 		for(int i = 1; i < 14; ++i)
 		{
 			g = new Game(Player.TWO);
 			System.out.print(i + ": ");
 			g.move(i);
-			System.out.println(g.getBoard());
+			System.out.println(g);
 		}
 	}
 }
