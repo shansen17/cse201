@@ -72,6 +72,6 @@ public class Game
 	public String toString()
 	{
 		
-		return "";
+		return board.toString();
 	}
 }
