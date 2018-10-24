@@ -50,14 +50,6 @@ public class Board
 		}
 	}
 
-	/**
-	 * Returns the index of the bin on the opposite side of the one specified.
-	 * For the mancalas (indices 0 and 7), it returns the index of the other
-	 * mancala.
-	 * 
-	 * @param index Index to find opposite of
-	 * @return Index of opposite bin
-	 */
 	public static int getOppositeIndex(int index)
 	{
 		checkBounds(index);
@@ -85,7 +77,7 @@ public class Board
 		return (index + 1) % SIZE;
 	}
 
-	public static Player Player(int index)
+	public static Player player(int index)
 	{
 		return (index < SIZE / 2) ? Player.ONE : Player.TWO;
 	}
