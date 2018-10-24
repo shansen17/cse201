@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Game
 {
@@ -18,14 +20,38 @@ public class Game
 		whoseTurn = p;
 	}
 	
-	public void move(int index)
+	//TODO Fix off-by-one
+	public List<Move> move(int index)
 	{
 		List<Move> moves = getStoneMoves(index);
+		List<Move> capMoves = new ArrayList<>();
 		
 		for(Move m : moves)
 		{
 			board.move(m.first(), m.second());
 		}
+		
+		if(!moves.isEmpty())
+		{
+			int lastMoveDest = moves.get(moves.size() - 1).second();
+			
+			if(capturePossible(lastMoveDest))
+			{
+				capMoves = getCaptureMoves(lastMoveDest);
+			}
+		}
+		
+		if(!capMoves.isEmpty())
+		{
+			for(Move m : capMoves)
+			{
+				board.move(m.first(), m.second());
+			}
+		}
+		
+		List<Move> allMoves = Stream.concat(moves.stream(), capMoves.stream())
+				.collect(Collectors.toList());
+		return allMoves;
 	}
 	
 	public boolean validMove(int index)
@@ -62,6 +88,23 @@ public class Game
 		}
 		
 		return moves;
+	}
+	
+	public boolean capturePossible(int lastMoveDest)
+	{
+		int opp = Board.getOppositeIndex(lastMoveDest);
+		if(board.stones(opp) == 0)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public List<Move> getCaptureMoves(int lastMoveDest)
+	{
+		// TODO finish method
+		return new ArrayList<Move>();
 	}
 	
 	public Board getBoard()
