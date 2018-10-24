@@ -34,7 +34,7 @@ public class Game
 		{
 			return false;
 		}
-		if(Board.Player(index) != whoseTurn)
+		if(Board.player(index) != whoseTurn)
 		{
 			return false;
 		}
@@ -54,7 +54,7 @@ public class Game
 		for(int i = Board.next(index); stones > 0; i = Board.next(i))
 		{
 			// skip opponent's mancala
-			if(!Board.isMancala(i) || Board.Player(i) == whoseTurn)
+			if(!Board.isMancala(i) || Board.player(i) == whoseTurn)
 			{
 				moves.add(new Move(index, i));
 				stones--;
