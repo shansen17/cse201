@@ -20,7 +20,7 @@ public class Game
 		whoseTurn = p;
 	}
 	
-	//TODO Fix off-by-one
+	// TODO fix off-by-one error
 	public List<Move> move(int index)
 	{
 		List<Move> moves = getStoneMoves(index);
@@ -28,7 +28,7 @@ public class Game
 		
 		for(Move m : moves)
 		{
-			board.move(m.first(), m.second());
+			board.move(m);
 		}
 		
 		if(!moves.isEmpty())
@@ -45,31 +45,15 @@ public class Game
 		{
 			for(Move m : capMoves)
 			{
-				board.move(m.first(), m.second());
+				board.move(m);
 			}
 		}
+		
+		whoseTurn = whoseTurn.opposite();
 		
 		List<Move> allMoves = Stream.concat(moves.stream(), capMoves.stream())
 				.collect(Collectors.toList());
 		return allMoves;
-	}
-	
-	public boolean validMove(int index)
-	{
-		if(0 > index || index > 13)
-		{
-			return false;
-		}
-		if(Board.player(index) != whoseTurn)
-		{
-			return false;
-		}
-		if(board.stones(index) < 1)
-		{
-			return false;
-		}
-		
-		return true;
 	}
 	
 	public List<Move> getStoneMoves(int index)
@@ -90,21 +74,70 @@ public class Game
 		return moves;
 	}
 	
-	public boolean capturePossible(int lastMoveDest)
+	public List<Move> getCaptureMoves(int lastMoveDest)
 	{
+		List<Move> capMoves = new ArrayList<>();
+		int ownMancala = (whoseTurn == Player.ONE) ? 6 : 13;
 		int opp = Board.getOppositeIndex(lastMoveDest);
-		if(board.stones(opp) == 0)
-		{
-			return true;
+		int oppStones = board.stones(opp);
+		
+		capMoves.add(new Move(lastMoveDest, ownMancala));
+		while(oppStones > 0) {
+			capMoves.add(new Move(opp, ownMancala));
 		}
 		
+		return capMoves;
+	}
+	
+	public boolean validMove(int index)
+	{
+		if(0 > index || index > 13)
+		{
+			return false;
+		}
+		if(Board.player(index) != whoseTurn)
+		{
+			return false;
+		}
+		if(board.stones(index) < 1)
+		{
+			return false;
+		}
+		if(index == 6 || index == 13) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	// TODO finish
+	public boolean gameWon()
+	{
 		return false;
 	}
 	
-	public List<Move> getCaptureMoves(int lastMoveDest)
+	public boolean capturePossible(int lastMoveDest)
 	{
-		// TODO finish method
-		return new ArrayList<Move>();
+		int opp = Board.getOppositeIndex(lastMoveDest);
+		
+		// do not capture from mancalas
+		if(lastMoveDest % 7 == 6)
+		{
+			return false;
+		}
+		// only capture with stone placed in empty bin
+		if(board.stones(lastMoveDest) != 1)
+		{
+			return false;
+		}
+		// no capturing from own bin
+		if(Board.player(opp) == whoseTurn)
+		{
+			return false;
+		}
+		
+		// only capture with stones in opposite bin
+		return board.stones(opp) != 0;
 	}
 	
 	public Board getBoard()
@@ -114,7 +147,6 @@ public class Game
 	
 	public String toString()
 	{
-		
 		return board.toString();
 	}
 }

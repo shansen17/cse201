@@ -26,10 +26,10 @@ public class Board
 		}
 	}
 	
-	public void move(int source, int destination)
+	public void move(Move move)
 	{
-		bins[source]--;
-		bins[destination]++;
+		bins[move.first()]--;
+		bins[move.second()]++;
 	}
 
 	public int stones(int index)
@@ -75,14 +75,13 @@ public class Board
 	public String toString()
 	{
 		String s = "";
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		PrintStream ps = new PrintStream(os);
 		
 		/*
 		 * for(Bin b : bins) { s += b.Player + ","; s += b.getStones() +
 		 * ","; s += b.isMancala() ? "O" : "_"; s += "; "; } s += "\n";
 		 */
-		
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		PrintStream ps = new PrintStream(os);
 		
 		ps.println("The board now is");
 		ps.println("    ");
