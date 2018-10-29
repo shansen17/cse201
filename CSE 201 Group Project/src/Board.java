@@ -8,6 +8,7 @@ public class Board
 	 * Bins 7 through 13 belong to player two.
 	 */
 	public final static int SIZE = 14;
+	private final static int INITIAL_STONE_COUNT = 4;
 	
 	private int[] bins;
 	
@@ -22,7 +23,7 @@ public class Board
 		
 		for(int i = 0; i < SIZE; i++)
 		{
-			bins[i] = isMancala(i) ? 0 : 4;
+			bins[i] = isMancala(i) ? 0 : INITIAL_STONE_COUNT;
 		}
 	}
 	
