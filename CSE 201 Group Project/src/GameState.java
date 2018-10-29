@@ -24,6 +24,8 @@ public class GameState
 	{
 		List<Move> moves = getStoneMoves(index);
 		List<Move> capMoves = new ArrayList<>();
+		int lastMoveDest;
+		boolean goAgain = false;
 		
 		for(Move m : moves)
 		{
@@ -32,7 +34,11 @@ public class GameState
 		
 		if(!moves.isEmpty())
 		{
-			int lastMoveDest = moves.get(moves.size() - 1).second();
+			lastMoveDest = moves.get(moves.size() - 1).second();
+			if(Board.isMancala(lastMoveDest))
+			{
+				goAgain = true;
+			}
 			
 			if(capturePossible(lastMoveDest))
 			{
@@ -48,8 +54,11 @@ public class GameState
 			}
 		}
 		
-		whoseTurn = whoseTurn.opposite();
-		
+		if (!goAgain)
+		{
+			whoseTurn = whoseTurn.opposite();
+		}
+
 		List<Move> allMoves = Stream.concat(moves.stream(), capMoves.stream())
 				.collect(Collectors.toList());
 		return allMoves;
@@ -84,6 +93,7 @@ public class GameState
 		while(oppStones > 0)
 		{
 			capMoves.add(new Move(opp, ownMancala));
+			oppStones--;
 		}
 		
 		return capMoves;
