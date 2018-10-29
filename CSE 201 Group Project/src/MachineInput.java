@@ -17,7 +17,7 @@ public class MachineInput implements PlayerInput
 		double max = 0.0;
 		for(int i = 0; i < ALL_MOVES_POSSIBLE.length; ++i)
 		{
-			double weight = getWeight(ALL_MOVES_POSSIBLE[i]);
+			double weight = getWeight(ALL_MOVES_POSSIBLE[i], boardState);
 			if(weight > max) {
 				maxIndex = i;
 				max = weight;
@@ -28,7 +28,7 @@ public class MachineInput implements PlayerInput
 	}
 	
 	// TODO Finish method
-	private double getWeight(int move)
+	private double getWeight(int move, Board boardState)
 	{	
 		return Math.random();
 	}
