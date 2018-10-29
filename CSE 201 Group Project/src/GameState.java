@@ -3,24 +3,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Game
+public class GameState
 {
 	Board board = new Board();
 	Player whoseTurn = Player.ONE;
 	
-	public Game()
+	public GameState()
 	{
 		board.initialize();
 		whoseTurn = Math.random() > 0.5 ? Player.ONE : Player.TWO;
 	}
 	
-	public Game(Player p)
+	public GameState(Player p)
 	{
 		board.initialize();
 		whoseTurn = p;
 	}
 	
-	// TODO fix off-by-one error
 	public List<Move> move(int index)
 	{
 		List<Move> moves = getStoneMoves(index);
@@ -82,7 +81,8 @@ public class Game
 		int oppStones = board.stones(opp);
 		
 		capMoves.add(new Move(lastMoveDest, ownMancala));
-		while(oppStones > 0) {
+		while(oppStones > 0)
+		{
 			capMoves.add(new Move(opp, ownMancala));
 		}
 		
@@ -103,7 +103,8 @@ public class Game
 		{
 			return false;
 		}
-		if(index == 6 || index == 13) {
+		if(index == 6 || index == 13)
+		{
 			return false;
 		}
 		
