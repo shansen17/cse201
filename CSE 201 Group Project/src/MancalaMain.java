@@ -1,35 +1,56 @@
+import java.util.List;
 
 public class MancalaMain
 {
 	public static void main(String[] args)
 	{
 		MancalaMain.run(args);
-		//application.run(args);
+		// application.run(args);
 	}
 	
 	public static void run(String[] args)
 	{
-		/*
-		Game g = new Game();
-		System.out.println("NULL: " + g);
+		boolean gameQuit = false;
 		
-		for(int i = 1; i < 14; ++i)
+		while(!gameQuit)
 		{
-			g = new Game(Player.TWO);
-			System.out.print(i + ": ");
-			g.move(i);
-			System.out.println(g);
+			gameQuit = playGame();
 		}
-		*/
+	}
+	
+	public static boolean playGame()
+	{
+		GameState game = new GameState();
+		PlayerInput human = new HumanInput();
+		PlayerInput machine = new MachineInput();
 		
-		Game g = new Game(Player.ONE);
-		HumanInput hi = new HumanInput();
-		int input = -1;
-		while(true) {
-			System.out.println("\n"+g);
-			input = hi.getMove(g.getBoard());
-			if(input == -1) break;
-			g.move(input);
+		while(!game.gameWon())
+		{
+			if(game.whoseTurn == Player.ONE)
+				System.out.println(game);
+			
+			int nextMove;
+			PlayerInput input;
+			if(game.whoseTurn == Player.ONE)
+			{
+				input = human;
+			} else
+			{
+				input = machine;
+			}
+			
+			nextMove = input.getMove(game.getBoard());
+			
+			if(!game.validMove(nextMove))
+			{
+				continue;
+			}
+			
+			List<Move> moveSet = game.move(nextMove);
 		}
+		
+		System.out.println(game.whoseTurn + " won!");
+		
+		return true;
 	}
 }
