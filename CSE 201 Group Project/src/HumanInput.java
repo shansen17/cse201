@@ -11,6 +11,7 @@ public class HumanInput implements PlayerInput
 	public int getMove(Board boardState)
 	{	
 		int nextMove = Integer.parseInt(scan.nextLine());
+		System.out.println(nextMove); // TODO remove debug line
 		
 		return nextMove;
 	}
