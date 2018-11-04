@@ -45,17 +45,17 @@ public class Board
 	
 	public static int getOppositeIndex(int index)
 	{
-		// The equation breaks for indices 0 and 7, so we make exceptions.
-		if(index == 6)
+		// The equation breaks for indices 6 and 13, so we make exceptions.
+		if(index == SIZE / 2 - 1)
 		{
-			return 13;
+			return SIZE - 1;
 		}
-		else if(index == 13)
+		else if(index == SIZE - 1)
 		{
-			return 6;
+			return SIZE / 2 - 1;
 		}
 		
-		return SIZE - index - 2; // TODO check logic
+		return SIZE - index - 2;
 	}
 
 	public static boolean isMancala(int index)
