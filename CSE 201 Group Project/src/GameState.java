@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GameState
 {
@@ -20,48 +18,12 @@ public class GameState
 		whoseTurn = p;
 	}
 	
-	public List<Move> move(int index)
+	public void move(List<Move> moveSet)
 	{
-		List<Move> moves = getStoneMoves(index);
-		List<Move> capMoves = new ArrayList<>();
-		int lastMoveDest;
-		boolean goAgain = false;
-		
-		for(Move m : moves)
+		for(Move m : moveSet)
 		{
 			board.move(m);
 		}
-		
-		if(!moves.isEmpty())
-		{
-			lastMoveDest = moves.get(moves.size() - 1).second();
-			if(Board.isMancala(lastMoveDest))
-			{
-				goAgain = true;
-			}
-			
-			if(capturePossible(lastMoveDest))
-			{
-				capMoves = getCaptureMoves(lastMoveDest);
-			}
-		}
-		
-		if(!capMoves.isEmpty())
-		{
-			for(Move m : capMoves)
-			{
-				board.move(m);
-			}
-		}
-		
-		if (!goAgain)
-		{
-			whoseTurn = whoseTurn.opposite();
-		}
-
-		List<Move> allMoves = Stream.concat(moves.stream(), capMoves.stream())
-				.collect(Collectors.toList());
-		return allMoves;
 	}
 	
 	public List<Move> getStoneMoves(int index)
