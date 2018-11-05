@@ -30,6 +30,38 @@ public class MachineInput implements PlayerInput
 	// TODO Finish method
 	private double getWeight(int move, Board boardState)
 	{	
-		return Math.random();
+		int stones = boardState.stones(move);
+		//if landing in mancala is possible (first priority)
+		if (bonusPossible(move, stones)) {
+			return 2.0;
+		}
+		//if capturing pieces is possible (second priority)
+		else if (capturePossible(move, boardState)) {
+			return 1.0;
+		}
+		//last resort: choose randomly
+		else {
+			return Math.random();
+		}
+	}
+	 
+	private boolean bonusPossible(int move, int stones) {
+		//find if stones + current index = mancala index
+		if (move + stones == 13) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean capturePossible(int move, Board boardState) {
+		//return true when capture of pieces on other side of board is possible
+		//find space where final stone would end up
+		int target = move + boardState.stones(move);
+		//find space on opposite side of target
+		int opp = boardState.getOppositeIndex(target);
+		if (boardState.stones(target) == 0 && boardState.stones(opp) > 0) {
+			return true;
+		}
+		return false;
 	}
 }
