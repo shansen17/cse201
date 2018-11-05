@@ -1,10 +1,16 @@
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 public class Board
 {
 	/*
-	 * Bin 6 and bin 13 are mancalas. Bins 0 through 6 belong to player 1. Bins 7
-	 * through 13 belong to player 2.
+	 * Bin 6 and bin 13 are mancalas. Bins 0 through 6 belong to player one.
+	 * Bins 7 through 13 belong to player two.
 	 */
-	private Bin[] bins;
+	public final static int SIZE = 14;
+	private final static int INITIAL_STONE_COUNT = 4;
+	
+	private int[] bins;
 	
 	public Board()
 	{
@@ -13,102 +19,92 @@ public class Board
 	
 	public void initialize()
 	{
-		bins = new Bin[14];
+		bins = new int[SIZE];
 		
-		int midpoint = bins.length / 2;
-		for(int i = 0; i < bins.length; i++)
+		for(int i = 0; i < SIZE; i++)
 		{
-			Participant p = (i < midpoint) ? Participant.one : Participant.two;
-			boolean isMancala = i % midpoint == midpoint - 1; // only indices 6 and 13
-			int stones = (isMancala) ? 0 : 4; // 0 for mancala, 4 for everything else
-			
-			bins[i] = new Bin(stones, isMancala, p);
+			bins[i] = isMancala(i) ? 0 : INITIAL_STONE_COUNT;
 		}
 	}
 	
+	public void move(Move move)
+	{
+		bins[move.first()]--;
+		bins[move.second()]++;
+	}
+
 	public int stones(int index)
 	{
-		checkBounds(index);
-		
-		return bins[index].getStones();
-	}
-	
-	public boolean isMancala(int index)
-	{
-		checkBounds(index);
-		
-		return bins[index].isMancala();
-	}
-	
-	public Participant participant(int index)
-	{
-		checkBounds(index);
-		
-		return bins[index].participant;
-	}
-	
-	public Bin getBin(int index)
-	{
-		checkBounds(index);
-		
 		return bins[index];
 	}
 	
-	public void setBinCount(int index, int count)
+	public void setStones(int index, int count)
 	{
-		checkBounds(index);
-		
-		if(0 > count || count > 48)
+		bins[index] = count;
+	}
+	
+	public static int getOppositeIndex(int index)
+	{
+		// The equation breaks for indices 6 and 13, so we make exceptions.
+		if(index == SIZE / 2 - 1)
 		{
-			// TODO throw ex
+			return SIZE - 1;
+		}
+		else if(index == SIZE - 1)
+		{
+			return SIZE / 2 - 1;
 		}
 		
-		bins[index].setStones(count);
+		return SIZE - index - 2;
 	}
-	
-	/**
-	 * Returns the index of the bin on the opposite side of the one specified. For
-	 * the mancalas (indices 0 and 7), it returns the index of the other mancala.
-	 * 
-	 * @param index Index to find opposite of
-	 * @return Index of opposite bin
-	 */
-	@SuppressWarnings("unused") // TODO remove
-	private int getOppositeIndex(int index)
+
+	public static boolean isMancala(int index)
 	{
-		checkBounds(index);
+		return index % (SIZE / 2) == SIZE / 2 - 1; // only indices 6, 13
+	}
+
+	public static int next(int index)
+	{
+		return (index + 1) % SIZE;
+	}
+
+	public static Player player(int index)
+	{
+		return (index < SIZE / 2) ? Player.ONE : Player.TWO;
+	}
+
+	public String toString()
+	{
+		String s = "";
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		PrintStream ps = new PrintStream(os);
 		
-		// The equation breaks for indices 0 and 7, so we make exceptions.
-		if(index == 0)
+		/*
+		 * for(Bin b : bins) { s += b.Player + ","; s += b.getStones() +
+		 * ","; s += b.isMancala() ? "O" : "_"; s += "; "; } s += "\n";
+		 */
+		
+		ps.println("The board now is");
+		ps.println("    ");
+		for(int i = 13; i > 7; i--)
 		{
-			return 7;
-		}else if(index == 7)
-		{
-			return 0;
+			ps.print("    ");
+			ps.printf("%02d", bins[(i - 1) % 14]);
 		}
-		
-		return bins.length - index; // TODO check logic
-	}
-	
-	public int next(int index)
-	{
-		return (index + 1) % bins.length;
-	}
-	
-	public void move(int source, int destination)
-	{
-		checkBounds(source);
-		checkBounds(destination);
-		
-		bins[source].decrement();
-		bins[destination].increment();
-	}
-	
-	private void checkBounds(int index) throws ArrayIndexOutOfBoundsException
-	{
-		if(0 > index || index >= bins.length)
+		ps.println("    ");
+		ps.println(bins[13]
+				+ "                                     "
+				+ bins[6]);
+		for(int i = 1; i < 7; i++)
 		{
-			throw new ArrayIndexOutOfBoundsException();
+			ps.print("    ");
+			ps.printf("%02d", bins[(i - 1) % 14]);
 		}
+		ps.println("    ");
+		
+		s += os.toString() + "\n";
+		
+		return s;
 	}
+	
 }
